@@ -45,20 +45,28 @@ class Chat {
                 this.userObj.enterChat = true;
                 this.enterChat();
                 if(!data.data.msgs || data.data.msgs.length < 1) {
+
+                    // console.log('!DATA.MSGS: ', data.data.msgs);
+
                     this.userObj.users = data.data.users;
                     this.insertUsers();
                     return;
                 }
-                // console.log(data.data.msgs[data.data.msgs.length - 1].time);
-                // console.log(this.userObj.messages[this.userObj.messages.length - 1].time);
-                if(data.data.msgs[data.data.msgs.length - 1].time == this.userObj.messages[this.userObj.messages.length - 1].time)
-                {
+                console.log(data.data.msgs[data.data.msgs.length - 1].time);
+                console.log(this.userObj.messages[this.userObj.messages.length - 1].time);
+                if(data.data.msgs[0].time == this.userObj.messages[0].time) {
+
+                    // console.log('DATA.MSGS == USER.MSGS ', data.data.msgs);
+
                     this.userObj.users = data.data.users;
                     this.insertUsers();
                     return;
                 }
                 // this.getCookies();
-                // 
+                //
+
+                // console.log('NORMAL DATA.MSGS: ', data.data.msgs);
+
                 this.userObj.messages = data.data.msgs;
                 this.userObj.users = data.data.users;
                 this.insertMessages();
@@ -69,7 +77,7 @@ class Chat {
                 this.exitChat();
                 clearInterval(interval);
             }
-        }, 1000);
+        }, 2000);
 
     }
 
@@ -146,7 +154,7 @@ class Chat {
 
         const message = {
             msg: this.messageInput.value
-        }
+        };
 
         this.messageInput.value = null;
 
@@ -211,7 +219,7 @@ class Chat {
         this.bodyChat.innerHTML = '';
         const len = this.userObj.messages.length;
         
-        for(let i = len - 1; i >= 0; i--) {
+        for(let i = 0; i < len; i++) {
 
             const msgTime = this.userObj.messages[i].time;
             // const parsedTime = new Date(msgTime).getHours() + ':' + new Date(msgTime).getMinutes();
@@ -234,9 +242,9 @@ class Chat {
             
             this.bodyChat.insertBefore(el, this.bodyChat.children[0]);
 
-            if(i == 0) {
-                el.style.marginTop = (this.bodyChat.scrollHeight - (this.bodyChat.children[len - 1].offsetTop) + 24) + 'px';
-                console.log(this.bodyChat.scrollHeight - (this.bodyChat.children[len - 1].offsetTop) + 24);
+            if(i == (len - 1)) {
+                el.style.marginTop = (this.bodyChat.scrollHeight - this.bodyChat.children[len - 1].offsetTop + 24) + 'px';
+                console.log(this.bodyChat.scrollHeight - this.bodyChat.children[len - 1].offsetTop);
                 el.style.border = 'none';
             } else {
                 continue;

@@ -8,7 +8,7 @@ class MessageRepository extends Repository {
         this.model = Message;
     }
     find(cb) {
-        Message.find().sort({'date': -1}).limit(100).exec((err, data) => {
+        Message.find().sort({ time: -1 }).limit(100).exec((err, data) => {
             cb(err, data);
         });
     }
